@@ -1,3 +1,4 @@
+//License MIT,fork from https://github.com/ChaseStrackbein/m3-dev-console 
 (() => {
   /**
    * Cached jQuery objects
@@ -64,13 +65,13 @@
     $resizeBar = $('<div>').addClass('m3c-resize');
     $header = $('<div>').addClass('m3c-header').text('Console');
     $headerBtnWrapper = $('<div>');
-    $clearBtn = $('<div>').addClass('m3c-button').prop('title', 'Clear console').append($('<i>').addClass('fa fa-fw fa-trash'));
-    $closeBtn = $('<div>').addClass('m3c-button').prop('title', 'Close console').append($('<i>').addClass('fa fa-fw fa-times'));
+    $clearBtn = $('<div>').addClass('m3c-button').prop('title', 'Clear console').text("🗑");
+    $closeBtn = $('<div>').addClass('m3c-button').prop('title', 'Close console').text("×");
     $logs = $('<div>').addClass('m3c-logs');
     $footer = $('<div>').addClass('m3c-footer');
-    $footerGlyph = $('<span>').addClass('m3c-code-glyph').append($('<i>').addClass('fa fa-fw fa-angle-right'));
+    $footerGlyph = $('<span>').addClass('m3c-code-glyph').text("> ");
     $codeInput = $('<textarea>').addClass('m3c-input').prop('id', 'm3c-code-input').prop('spellcheck', false);
-    $expandBtn = $('<div>').addClass('m3c-button m3c-no-pad').prop('title', 'Collapse').append($('<i>').addClass('fa fa-fw fa-chevron-down'));
+    $expandBtn = $('<div>').addClass('m3c-button m3c-no-pad').prop('title', 'Collapse').text("﹀");
 
     $wrapper.append(
       $consoleBody
@@ -83,8 +84,8 @@
             .append($expandBtn)
       ));
 
-    $gameHeaderBtnWrapper = $('<div>').addClass('d-inline-block ml-2');
-    $gameHeaderBtn = $('<button>').addClass('btn btn-sm btn-dual text-combat-smoke').append($('<i>').addClass('fa fa-fw fa-terminal'));
+    $gameHeaderBtnWrapper = $('<div>');
+    $gameHeaderBtn = $('<div>').addClass('console').text("Console");
 
     $gameHeaderBtnWrapper.append($gameHeaderBtn);
   };
@@ -97,6 +98,7 @@
   
     // Up key
     $codeInput.on('keydown', e => {
+e.stopPropagation();
       if (e.which !== 38) return true;
       if ($codeInput[0].selectionStart !== $codeInput[0].selectionEnd) return true;
       const newLineIndex = $codeInput.val().indexOf('\n');
@@ -109,6 +111,7 @@
 
     // Down key
     $codeInput.on('keydown', e => {
+e.stopPropagation();
       if (e.which !== 40) return true;
       if ($codeInput[0].selectionStart !== $codeInput[0].selectionEnd) return true;
       const lastNewLineIndex = $codeInput.val().lastIndexOf('\n');
@@ -121,6 +124,7 @@
 
     // Enter on code input to submit
     $codeInput.on('keydown', e => {
+e.stopPropagation();
       if (e.which !== 13 || e.shiftKey) return true;
       
       e.preventDefault();
@@ -130,6 +134,7 @@
 
     // Esc key to lose focus on input
     $codeInput.on('keydown', e => {
+e.stopPropagation();
       if (e.which !== 27) return true;
       
       e.preventDefault();
@@ -172,20 +177,19 @@
       $resizeBar.toggleClass('d-none', isCollapsed);
       $header.toggleClass('d-none', isCollapsed);
       $logs.toggleClass('d-none', isCollapsed);
-      $expandBtn.find('i').toggleClass('fa-chevron-up', isCollapsed)
-        .toggleClass('fa-chevron-down', !isCollapsed)
+      $expandBtn.text($expandBtn.text()=="﹀"?"︿":"﹀")
         .prop('title', isCollapsed ? 'Expand' : 'Collapse');
     });
   };
 
   const inject = () => {
-    $('#m-page-loader').after($wrapper);
+    $('body').prepend($wrapper);
 
     // Wait until main game UI is loaded for button
     let loadingInterval = setInterval(() => {
-      if (!characterSelected || characterLoading) return;
+      if ($("#reset-container").length==0) return;
 
-      $('#header-theme > .align-items-right > .d-inline-block').first().before($gameHeaderBtnWrapper);
+      $("#reset-container").before($gameHeaderBtnWrapper);
       clearInterval(loadingInterval);
     }, 500);
   };
@@ -275,24 +279,24 @@
   const buildLog = (log) => {
     const $log = $('<div>').addClass('m3c-log');
     const $iconWrapper = $('<div>').addClass('m3c-log-icon');
-    const $icon = $('<i>').addClass('fa fa-fw');
+    const $icon = $('<div>');
     const $message = $('<div>').addClass('m3c-log-message')
       .html(log.message.replace(/\n/g, '<br />'));
     
     switch (log.type) {
       case 'input':
-        $icon.addClass('fa-angle-right');
+        $icon.text("> ");
         break;
       case 'output':
-        $icon.addClass('fa-arrow-left fa-xs');
+        $icon.text("< ");
         break;
       case 'error':
         $log.addClass('m3c-log-error');
-        $icon.addClass('fa-times-circle fa-xs');
+        $icon.text("❌");
         break;
       case 'warn':
         $log.addClass('m3c-log-warn');
-        $icon.addClass('fa-exclamation-triangle fa-xs');
+        $icon.text("⚠");
         break;
       default:
         break;
