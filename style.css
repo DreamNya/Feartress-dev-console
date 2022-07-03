@@ -1,3 +1,4 @@
+/*License MIT,fork from https://github.com/ChaseStrackbein/m3-dev-console  */
 .m3c-wrapper {
   background-color: rgba(0, 0, 0, 0.5);
   height: 100%;
@@ -79,6 +80,8 @@
 .m3c-log-message {
   font-size: 0.8rem;
   user-select: text;
+  word-break: break-all;
+  width: 100%;
 }
 
 .m3c-footer {
@@ -126,4 +129,26 @@
 .m3c-fit {
   height: fit-content !important;
   min-height: auto !important;
+}
+
+.d-none {
+  display: none!important;
+}
+
+.console{
+  margin-bottom: 5px;
+  height: 30px;
+  width: 80px;
+  background: rgb(51, 51, 51);
+  color: rgb(173, 173, 173);
+  border-radius: 5px;
+  font-size: 0.7rem;
+  cursor: url(image_files/cursor.png), auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+}
+.console:hover {
+    background: rgb(87, 87, 87);
 }
