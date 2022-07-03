@@ -64,8 +64,9 @@ Steam商店：https://store.steampowered.com/app/1904280
 ![用于汉化](example_img/%E7%94%A8%E4%BA%8E%E6%B1%89%E5%8C%96.png)
 ![用于输入修改代码](example_img/%E7%94%A8%E4%BA%8E%E8%BE%93%E5%85%A5%E4%BF%AE%E6%94%B9%E4%BB%A3%E7%A0%81.png)
 
+(New README.md for Feartress above)
+(Original README.md for Melvor Idle  below)
 
-(Original README.md above)
 # M3 JS Console for Melvor Idle
 Allows you to use an emulation of the developer console in the Steam edition of Melvor Idle. Shift + ` to access (configurable via the [Keybindings](https://github.com/ChaseStrackbein/melvor-keybindings) mod, just make sure dev.Console comes **after** Keybindings in your load order). There is also a button to open the console once loaded into a character, found next to the cloud save button.
 
